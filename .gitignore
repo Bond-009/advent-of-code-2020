@@ -54,3 +54,7 @@ dkms.conf
 # Release and Debug folders
 [Rr]elease
 [Dd]ebug
+
+# Executables
+part1
+part2
