@@ -3,10 +3,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-bool is_valid_password(char * pass, char * policy)
+bool is_valid_password(char *pass, char *policy)
 {
     int pos1 = atoi(policy) - 1;
-    char * minP = strchr(policy, '-');
+    char *minP = strchr(policy, '-');
     int pos2 = atoi(++minP) - 1;
     char c = *(strchr(minP, ' ') + 1);
 
@@ -15,7 +15,7 @@ bool is_valid_password(char * pass, char * policy)
 
 int main()
 {
-    FILE * file = fopen("input", "r");
+    FILE *file = fopen("input", "r");
     char buffer[128] = { 0 };
     int valid = 0;
     while (fgets(buffer, 128, file)) {

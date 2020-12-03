@@ -3,9 +3,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-int count_trees(int inc_right, int inc_down, const char * filename)
+int count_trees(int inc_right, int inc_down, const char *filename)
 {
-    FILE * file = fopen(filename, "r");
+    FILE *file = fopen(filename, "r");
 
     // Include space for newline and string terminator
     char buffer[64] = { 0 };
@@ -17,8 +17,7 @@ int count_trees(int inc_right, int inc_down, const char * filename)
     int pos = inc_right;
     int hit = 0;
     for (int i = 1; fgets(buffer, 64, file); i++) {
-        if (inc_down != 1 && i % inc_down != 0)
-        {
+        if (inc_down != 1 && i % inc_down != 0) {
             continue;
         }
 

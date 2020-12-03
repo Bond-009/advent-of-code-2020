@@ -5,9 +5,9 @@
 
 #define INC_RIGHT 3
 
-int count_trees(const char * filename)
+int count_trees(const char *filename)
 {
-    FILE * file = fopen(filename, "r");
+    FILE *file = fopen(filename, "r");
 
     // Include space for newline and string terminator
     char buffer[64] = { 0 };

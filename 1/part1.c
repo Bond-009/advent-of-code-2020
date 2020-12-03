@@ -5,7 +5,7 @@
 
 #define INPUT_LEN 200
 
-int repair(int * arr)
+int repair(const int * arr)
 {
     for (int i = 0; i < INPUT_LEN; i++) {
         for (int j = 0; j < INPUT_LEN; j++) {
@@ -20,7 +20,7 @@ int repair(int * arr)
 
 int main()
 {
-    FILE * file = fopen("input", "r");
+    FILE *file = fopen("input", "r");
 
     char buffer[8] = { 0 };
     int input[INPUT_LEN] = { 0 };
