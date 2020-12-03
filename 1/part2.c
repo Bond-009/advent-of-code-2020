@@ -31,5 +31,7 @@ int main()
         input[i] = atoi(buffer);
     }
 
+    fclose(file)
+
     printf("%i", repair(input));
 }

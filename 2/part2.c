@@ -24,5 +24,7 @@ int main()
         }
     }
 
+    fclose(file);
+
     printf("%i", valid);
 }

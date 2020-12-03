@@ -26,6 +26,8 @@ int count_trees(const char * filename)
         pos = (pos + INC_RIGHT) % width;
     }
 
+    fclose(file);
+
     return hit;
 }
 
