@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd "$1"
+gcc -Wall -pedantic -O3 -march=native -mtune=native -flto -o "part$2" "part$2.c"

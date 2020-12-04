@@ -20,9 +20,13 @@ bool is_valid_password(char *pass, char *policy)
     return occ >= min && occ <= max;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
-    FILE *file = fopen("input", "r");
+    FILE *file = fopen(argv[1], "r");
+    if (!file) {
+        return 1;
+    }
+
     char buffer[128] = { 0 };
     int valid = 0;
     while (fgets(buffer, 128, file)) {

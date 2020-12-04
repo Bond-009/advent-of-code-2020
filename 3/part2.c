@@ -33,8 +33,8 @@ int count_trees(int inc_right, int inc_down, const char *filename)
     return hit;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
-    long mul = (long)count_trees(1, 1, "input") * count_trees(3, 1, "input") * count_trees(5, 1, "input") * count_trees(7, 1, "input") * count_trees(1, 2, "input");
+    long mul = (long)count_trees(1, 1, argv[1]) * count_trees(3, 1, argv[1]) * count_trees(5, 1, argv[1]) * count_trees(7, 1, argv[1]) * count_trees(1, 2, argv[1]);
     printf("%li\n", mul);
 }

@@ -20,9 +20,12 @@ int repair(const int *arr)
     return 0;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
-    FILE *file = fopen("input", "r");
+    FILE *file = fopen(argv[1], "r");
+    if (!file) {
+        return 1;
+    }
 
     char buffer[8] = { 0 };
     int input[INPUT_LEN] = { 0 };
