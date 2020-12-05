@@ -1,7 +1,4 @@
-#include <stdbool.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 #define COLUMNS 8
 #define ROWS 128
@@ -65,11 +62,11 @@ int main(int argc, char *argv[])
     char table[COLUMNS * ROWS] = { 0 };
 
     // Include space for newline and string terminator
-    char buffer[128] = { 0 };
+    char buffer[16] = { 0 };
 
     int min = __INT_MAX__;
     int max = 0;
-    while (fgets(buffer, 128, file)) {
+    while (fgets(buffer, 16, file)) {
         int tmp = get_seat_id(buffer);
         if (tmp > max)
         {
@@ -84,12 +81,10 @@ int main(int argc, char *argv[])
         table[tmp] = 1;
     }
 
-    int i = min + 1;
-    for (; i < max; i++) {
+    for (int i = min + 1; i < max; i++) {
         if (table[i] == 0) {
+            printf("%i", i);
             break;
         }
     }
-
-    printf("%i", i);
 }
