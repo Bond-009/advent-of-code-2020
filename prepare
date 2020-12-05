@@ -1,4 +1,9 @@
 #!/usr/bin/env bash
 
 cd $(("$1"))
-clang -Wall -pedantic -O3 -march=native -mtune=native -flto -s -static -o "part$2" "part$2.c"
+file="part$2.c"
+if test -f "part$2_fast.c"
+then
+    file="part$2_fast.c"
+fi
+clang -Wall -pedantic -O3 -march=native -mtune=native -flto -s -static -o ../run "part$2.c"

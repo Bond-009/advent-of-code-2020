@@ -22,7 +22,7 @@ bool is_valid_password(char *pass, char *policy)
 
 int main(int argc, char *argv[])
 {
-    FILE *file = fopen(argv[1], "r");
+    FILE *file = fopen(argv[argc - 1], "r");
     if (!file) {
         return 1;
     }

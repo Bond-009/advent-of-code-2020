@@ -58,3 +58,6 @@ dkms.conf
 # Executables
 part1
 part2
+part1_fast
+part2_fast
+run

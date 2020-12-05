@@ -33,5 +33,5 @@ int count_trees(const char *filename)
 
 int main(int argc, char *argv[])
 {
-    printf("%i", count_trees(argv[1]));
+    printf("%i", count_trees(argv[argc - 1]));
 }

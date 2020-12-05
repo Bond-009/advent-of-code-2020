@@ -76,5 +76,5 @@ int highest_seat_id(const char *filename)
 
 int main(int argc, char *argv[])
 {
-    printf("%i\n", highest_seat_id(argv[1]));
+    printf("%i\n", highest_seat_id(argv[argc - 1]));
 }

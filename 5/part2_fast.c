@@ -77,9 +77,11 @@ int missing_seat_id(const char *filename)
             return i;
         }
     }
+
+    return 0;
 }
 
 int main(int argc, char *argv[])
 {
-    printf("%i", missing_seat_id(argv[1]));
+    printf("%i", missing_seat_id(argv[argc - 1]));
 }

@@ -64,5 +64,5 @@ int count_valid_passports(const char *filename)
 
 int main(int argc, char *argv[])
 {
-    printf("%i", count_valid_passports(argv[1]));
+    printf("%i", count_valid_passports(argv[argc - 1]));
 }

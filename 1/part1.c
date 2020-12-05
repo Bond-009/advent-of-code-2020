@@ -20,7 +20,7 @@ int repair(const int * arr)
 
 int main(int argc, char *argv[])
 {
-    FILE *file = fopen(argv[1], "r");
+    FILE *file = fopen(argv[argc - 1], "r");
     if (!file) {
         return 1;
     }
