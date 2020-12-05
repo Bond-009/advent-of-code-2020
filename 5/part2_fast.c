@@ -3,7 +3,31 @@
 #define COLUMNS 8
 #define ROWS 128
 
-int get_seat_id(const char *seat)
+int row(const char *seat)
+{
+    int end_res = 0;
+    for (int i = 0; i < 7; i++) {
+        if (seat[i] == 'B') {
+            end_res |= 0x40 >> i;
+        }
+    }
+
+    return end_res;
+}
+
+int column(const char *seat)
+{
+    int end_res = 0;
+    for (int i = 7; i < 10; i++) {
+        if (seat[i] == 'R') {
+            end_res |= 0x200 >> i;
+        }
+    }
+
+    return end_res;
+}
+
+int seat_id(const char *seat)
 {
     int end_res = 0;
     int i = 0;
@@ -22,9 +46,9 @@ int get_seat_id(const char *seat)
     return end_res;
 }
 
-int main(int argc, char *argv[])
+int missing_seat_id(const char *filename)
 {
-    FILE *file = fopen(argv[1], "r");
+    FILE *file = fopen(filename, "r");
 
     char table[COLUMNS * ROWS] = { 0 };
 
@@ -34,7 +58,7 @@ int main(int argc, char *argv[])
     int min = __INT_MAX__;
     int max = 0;
     while (fgets(buffer, 16, file)) {
-        int tmp = get_seat_id(buffer);
+        int tmp = seat_id(buffer);
         if (tmp > max)
         {
             max = tmp;
@@ -50,8 +74,12 @@ int main(int argc, char *argv[])
 
     for (int i = min + 1; i < max; i++) {
         if (table[i] == 0) {
-            printf("%i", i);
-            break;
+            return i;
         }
     }
+}
+
+int main(int argc, char *argv[])
+{
+    printf("%i", missing_seat_id(argv[1]));
 }

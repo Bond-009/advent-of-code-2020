@@ -3,7 +3,7 @@
 #define COLUMNS 8
 #define ROWS 128
 
-int get_seat_id(const char *seat)
+int seat_id(const char *seat)
 {
     int row = 0;
     int row_lower = 0;
@@ -55,21 +55,26 @@ int get_seat_id(const char *seat)
     return row * COLUMNS + column;
 }
 
-int main(int argc, char *argv[])
+int highest_seat_id(const char *filename)
 {
-    FILE *file = fopen(argv[1], "r");
+    FILE *file = fopen(filename, "r");
 
     // Include space for newline and string terminator
-    char buffer[128] = { 0 };
+    char buffer[16] = { 0 };
 
     int max = 0;
 
-    while (fgets(buffer, 128, file)) {
-        int tmp = get_seat_id(buffer);
+    while (fgets(buffer, 16, file)) {
+        int tmp = seat_id(buffer);
         if (tmp > max) {
             max = tmp;
         }
     }
 
-    printf("%i\n", max);
+    return max;
+}
+
+int main(int argc, char *argv[])
+{
+    printf("%i\n", highest_seat_id(argv[1]));
 }
