@@ -71,6 +71,8 @@ int highest_seat_id(const char *filename)
         }
     }
 
+    fclose(file);
+
     return max;
 }
 
