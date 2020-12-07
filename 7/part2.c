@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include <malloc.h>
 #include <string.h>
 
@@ -12,6 +13,7 @@ struct Bag
 {
     size_t inner_bags_size;
     char *inner_bags[MAX_INNER_BAGS];
+    int inner_bags_count[MAX_INNER_BAGS];
     char *bag_color;
 };
 
@@ -44,32 +46,6 @@ char *insert_name(char **names, size_t *names_size, char *new_name)
     return names[low] = new_name;
 }
 
-void insert_name2(char **names, size_t *names_size, char *new_name)
-{
-    long long low = 0, high = *names_size;
-    while (low < high) {
-        int m = low + (high - low) / 2;
-        int c = strcmp(names[m], new_name);
-        if (c == 0) {
-            return;
-        }
-        else if (c < 0) {
-            low = m + 1;
-        }
-        else {
-            high = m;
-        }
-    }
-
-    for (long long i = *names_size - 1; i >= low; i--) {
-        names[i + 1] = names[i];
-    }
-
-    (*names_size)++;
-    names[low] = new_name;
-    return;
-}
-
 char *get_and_insert_name(char *bufstart, char *bufend, char **names, size_t *names_size)
 {
     size_t bag_name_len = bufend - bufstart;
@@ -77,6 +53,23 @@ char *get_and_insert_name(char *bufstart, char *bufend, char **names, size_t *na
     memcpy(new_name, bufstart, bag_name_len);
     new_name[bag_name_len] = 0; // null terminate string
     return insert_name(names, names_size, new_name);
+}
+
+size_t get_num_bags(struct Bag *bags, size_t bags_size, char *bag_color)
+{
+    for (size_t i = 0; i < bags_size; i++) {
+        if (bags[i].bag_color == bag_color) {
+            struct Bag bag = bags[i];
+            size_t total = 1;
+            for (size_t j = 0; j < bag.inner_bags_size; j++) {
+                total += get_num_bags(bags, bags_size, bag.inner_bags[j]) * bag.inner_bags_count[j];
+            }
+
+            return total;
+        }
+    }
+
+    return 0;
 }
 
 int bags_count(const char *filename)
@@ -110,11 +103,14 @@ int bags_count(const char *filename)
         }
 
         char *string_end = strchr(end_bag_name, '.');
-        char *start_bag_name = end_bag_name + 16;
+        char *start_bag_name = end_bag_name + 14;
         while ((end_bag_name = strstr(start_bag_name, " bag"))) {
+            int num_bags = atoi(start_bag_name);
+            start_bag_name += 2;
             new_name = get_and_insert_name(start_bag_name, end_bag_name, names, &names_size);
-            cur_bag->inner_bags[cur_bag->inner_bags_size++] = new_name;
-            start_bag_name = end_bag_name + (strncmp(end_bag_name, " bags", 5) ? 8 : 9);
+            cur_bag->inner_bags[cur_bag->inner_bags_size] = new_name;
+            cur_bag->inner_bags_count[cur_bag->inner_bags_size++] = num_bags;
+            start_bag_name = end_bag_name + (strncmp(end_bag_name, " bags", 5) ? 6 : 7);
             if (start_bag_name > string_end) {
                 // We're outside the buffer, stop
                 break;
@@ -124,32 +120,7 @@ int bags_count(const char *filename)
 
     fclose(file);
 
-    char **outer_bags = malloc(MAX_SIZE * sizeof(char *));
-
-    // Start search with SEARCH_NAME
-    outer_bags[0] = search_name;
-    size_t outer_bags_size = 1;
-
-    size_t old_size = 0;
-    while (old_size != outer_bags_size) {
-        old_size = outer_bags_size;
-        for (size_t i = 0; i < outer_bags_size; i++) {
-            struct Bag *p = bags;
-            while (p <= cur_bag) {
-                for (size_t j = 0; j < p->inner_bags_size; j++) {
-                    if (p->inner_bags[j] == outer_bags[i]) {
-                        insert_name2(outer_bags, &outer_bags_size, p->bag_color);
-                        break;
-                    }
-                }
-
-                p++;
-            }
-        }
-    }
-
-    // Don't count SEARCH_NAME
-    return outer_bags_size - 1;
+    return get_num_bags(bags, cur_bag - bags + 1, search_name) - 1;
 }
 
 int main(int argc, char *argv[])
