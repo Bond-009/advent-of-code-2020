@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cd $(("$1"))
+cd ${1#0}
 file="part$2.c"
 if test -f "part$2_fast.c"
 then
