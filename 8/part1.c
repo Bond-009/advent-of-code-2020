@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <malloc.h>
-#include <string.h>
 
 #define INPUT_LEN 650
 
@@ -20,7 +18,7 @@ int exe_program(const char *filename)
     // Include space for newline and string terminator
     char buffer[16] = { 0 };
 
-    struct Operation *ops = malloc(INPUT_LEN * sizeof(struct Operation));
+    struct Operation ops[INPUT_LEN];
     size_t opcount = 0;
 
     while (fgets(buffer, 16, file)) {

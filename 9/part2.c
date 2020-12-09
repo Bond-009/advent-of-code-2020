@@ -2,8 +2,6 @@
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
-#include <malloc.h>
-#include <string.h>
 
 #define INPUT_LEN 1000
 #define SEARCH_LEN 25
@@ -31,7 +29,7 @@ int exe_program(const char *filename)
     // Include space for newline and string terminator
     char buffer[24] = { 0 };
 
-    uint64_t *nums = malloc(INPUT_LEN * sizeof(uint64_t));
+    uint64_t nums[INPUT_LEN] = { 0 };
     size_t num_size = 0;
 
     while (fgets(buffer, 24, file)) {
