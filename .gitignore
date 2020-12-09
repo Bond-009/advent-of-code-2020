@@ -55,6 +55,9 @@ dkms.conf
 [Rr]elease
 [Dd]ebug
 
+# Intel VTune project dir
+aoc2020
+
 # Executables
 part1
 part2
