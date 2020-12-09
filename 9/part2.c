@@ -49,7 +49,7 @@ int exe_program(const char *filename)
 
     cur_num = nums;
     do {
-        uint64_t min = __LONG_LONG_MAX__;
+        uint64_t min = __UINT64_MAX__;
         uint64_t max = 0;
         uint64_t sum = 0;
         uint64_t *p1 = cur_num;
@@ -57,8 +57,7 @@ int exe_program(const char *filename)
             if (*p1 < min) {
                 min = *p1;
             }
-
-            if (*p1 > max) {
+            else if (*p1 > max) {
                 max = *p1;
             }
 

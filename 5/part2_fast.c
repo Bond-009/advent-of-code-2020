@@ -59,12 +59,11 @@ int missing_seat_id(const char *filename)
     int max = 0;
     while (fgets(buffer, 16, file)) {
         int tmp = seat_id(buffer);
-        if (tmp > max) {
-            max = tmp;
-        }
-
         if (tmp < min) {
             min = tmp;
+        }
+        else if (tmp > max) {
+            max = tmp;
         }
 
         table[tmp] = 1;
