@@ -69,7 +69,8 @@ uint64_t solve(const char *filename)
     }
 
     // Add our device's built-in joltage adapter
-    insert_value_sorted(input, &input_size, input[input_size - 1] + 3);
+    input[input_size] = input[input_size - 1] + 3;
+    input_size++;
 
     fclose(file);
 
