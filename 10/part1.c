@@ -11,17 +11,15 @@ void insert_value_sorted(int *list, size_t *size, int value)
     long long low = 0, high = *size;
     while (low < high) {
         int m = low + (high - low) / 2;
-        if (list[m] == value) {
-            /* Name already exists,
-                return pointer to the already existsing string and free the new one.
-            */
-            return;
-        }
-        else if (list[m] < value) {
+        if (list[m] < value) {
             low = m + 1;
         }
-        else {
+        else if (list[m] > value) {
             high = m;
+        }
+        else {
+            // Value already exists in the list
+            return;
         }
     }
 
@@ -33,7 +31,7 @@ void insert_value_sorted(int *list, size_t *size, int value)
     list[low] = value;
 }
 
-int bags_count(const char *filename)
+int solve(const char *filename)
 {
     FILE *file = fopen(filename, "r");
 
@@ -44,7 +42,6 @@ int bags_count(const char *filename)
     size_t input_size = 1; // 0 is our start value
 
     while (fgets(buffer, 128, file)) {
-        puts(buffer);
         insert_value_sorted(input, &input_size, atoi(buffer));
     }
 
@@ -69,5 +66,5 @@ int bags_count(const char *filename)
 
 int main(int argc, char *argv[])
 {
-    printf("%i\n", bags_count(argv[argc - 1]));
+    printf("%i\n", solve(argv[argc - 1]));
 }

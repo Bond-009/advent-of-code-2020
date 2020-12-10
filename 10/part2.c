@@ -4,6 +4,8 @@
 #include <malloc.h>
 #include <string.h>
 
+#include "../utils.h"
+
 #define MAX_INPUT_LEN 128
 
 void insert_value_sorted(int *list, size_t *size, int value)
@@ -11,17 +13,15 @@ void insert_value_sorted(int *list, size_t *size, int value)
     long long low = 0, high = *size;
     while (low < high) {
         int m = low + (high - low) / 2;
-        if (list[m] == value) {
-            /* Name already exists,
-                return pointer to the already existsing string and free the new one.
-            */
-            return;
-        }
-        else if (list[m] < value) {
+        if (list[m] < value) {
             low = m + 1;
         }
-        else {
+        else if (list[m] > value) {
             high = m;
+        }
+        else {
+            // Value already exists in the list
+            return;
         }
     }
 
@@ -38,23 +38,22 @@ uint64_t pos_seq(int *input, size_t input_size)
     const static int TRIB[] = { 1, 1, 2, 4, 7 };
     int con = 0;
     uint64_t res = 1;
-
-    for (size_t i = 1; i < input_size; i++)
-    {
-        int diff = input[i] - input[i - 1];
-        if (diff == 1) {
+    int *prev = input;
+    int *cur = input + 1;
+    do {
+        if (likely(*cur - *prev == 1)) {
             con++;
         }
         else {
             res *= TRIB[con];
             con = 0;
         }
-    }
+    } while (++prev && ++cur < input + input_size);
 
     return res;
 }
 
-size_t bags_count(const char *filename)
+uint64_t solve(const char *filename)
 {
     FILE *file = fopen(filename, "r");
 
@@ -78,5 +77,5 @@ size_t bags_count(const char *filename)
 
 int main(int argc, char *argv[])
 {
-    printf("%zu\n", bags_count(argv[argc - 1]));
+    printf("%lu\n", solve(argv[argc - 1]));
 }
