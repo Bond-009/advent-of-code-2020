@@ -1,19 +1,22 @@
 program day1
     implicit none
 
+    integer, parameter :: input_len = 200
+    integer, parameter :: search = 2020
+
     integer :: i, j, k
-    integer, dimension(200) :: input
+    integer, dimension(input_len) :: input
 
     open(10, file='input', status='old')
-    do i = 1, 200
+    do i = 1, input_len
         read(10, *) input(i)
     end do
     close(10)
 
-    do i = 1, 200
-        do j = 1, 200
-            do k = 1, 200
-                if (input(i) + input(j) + input(k) == 2020) then
+    do i = 1, input_len
+        do j = 1, input_len
+            do k = 1, input_len
+                if (input(i) + input(j) + input(k) == search) then
                     print *, input(i) * input(j) * input(k)
                     stop
                 end if
