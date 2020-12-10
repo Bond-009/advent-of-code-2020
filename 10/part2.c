@@ -33,13 +33,14 @@ void insert_value_sorted(int *list, size_t *size, int value)
     list[low] = value;
 }
 
-uint64_t pos_seq(int *input, size_t input_size)
+uint64_t pos_seq(const int *input, size_t input_size)
 {
-    const static int TRIB[] = { 1, 1, 2, 4, 7 };
+    // Use char to optimize for size
+    const static char TRIB[] = { 1, 1, 2, 4, 7 };
     int con = 0;
     uint64_t res = 1;
-    int *prev = input;
-    int *cur = input + 1;
+    const int *prev = input;
+    const int *cur = input + 1;
     do {
         if (likely(*cur - *prev == 1)) {
             con++;
