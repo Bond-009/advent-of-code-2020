@@ -33,6 +33,27 @@ void insert_value_sorted(int *list, size_t *size, int value)
     list[low] = value;
 }
 
+uint64_t pos_seq(int *input, size_t input_size)
+{
+    const static int TRIB[] = { 1, 1, 2, 4, 7 };
+    int con = 0;
+    uint64_t res = 1;
+
+    for (size_t i = 1; i < input_size; i++)
+    {
+        int diff = input[i] - input[i - 1];
+        if (diff == 1) {
+            con++;
+        }
+        else {
+            res *= TRIB[con];
+            con = 0;
+        }
+    }
+
+    return res;
+}
+
 size_t bags_count(const char *filename)
 {
     FILE *file = fopen(filename, "r");
@@ -52,25 +73,7 @@ size_t bags_count(const char *filename)
 
     fclose(file);
 
-    /* Removed the 2 first values so we don't need to add 2 to our index every time
-        Longest consecutive input is 5 */
-    const static int TRIB[] = { 1, 1, 2, 4, 7 };
-    int con = 0;
-    size_t res = 1;
-
-    for (size_t i = 1; i < input_size; i++)
-    {
-        int diff = input[i] - input[i - 1];
-        if (diff == 1) {
-            con++;
-        }
-        else {
-            res *= TRIB[con];
-            con = 0;
-        }
-    }
-
-    return res;
+    return pos_seq(input, input_size);
 }
 
 int main(int argc, char *argv[])
