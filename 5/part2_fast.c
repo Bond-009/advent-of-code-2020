@@ -27,6 +27,9 @@ int column(const char *seat)
     return end_res;
 }
 
+#ifdef USE_ASM
+int seat_id(const char *seat);
+#else
 int seat_id(const char *seat)
 {
     int end_res = 0;
@@ -45,6 +48,7 @@ int seat_id(const char *seat)
 
     return end_res;
 }
+#endif
 
 int missing_seat_id(const char *filename)
 {

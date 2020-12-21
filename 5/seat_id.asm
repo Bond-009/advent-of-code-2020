@@ -6,43 +6,43 @@ section .text
 
 seat_id:
     xor     eax, eax            ; set up return value
-    cmp     BYTE [rdi], 66      ; B
+    cmp     BYTE [rdi], 'B'
     sete    al
     shl     eax, 1
     xor     ecx, ecx
-    cmp     BYTE [rdi + 1], 66
+    cmp     BYTE [rdi + 1], 'B'
     sete    cl
     or      eax, ecx
     shl     eax, 1
-    cmp     BYTE [rdi + 2], 66
+    cmp     BYTE [rdi + 2], 'B'
     sete    cl
     or      eax, ecx
     shl     eax, 1
-    cmp     BYTE [rdi + 3], 66
+    cmp     BYTE [rdi + 3], 'B'
     sete    cl
     or      eax, ecx
     shl     eax, 1
-    cmp     BYTE [rdi + 4], 66
+    cmp     BYTE [rdi + 4], 'B'
     sete    cl
     or      eax, ecx
     shl     eax, 1
-    cmp     BYTE [rdi + 5], 66
+    cmp     BYTE [rdi + 5], 'B'
     sete    cl
     or      eax, ecx
     shl     eax, 1
-    cmp     BYTE [rdi + 6], 66
+    cmp     BYTE [rdi + 6], 'B'
     sete    cl
     or      eax, ecx
     shl     eax, 1
-    cmp     BYTE [rdi + 7], 82  ; R
+    cmp     BYTE [rdi + 7], 'R'
     sete    cl
     or      eax, ecx
     shl     eax, 1
-    cmp     BYTE [rdi + 8], 82
+    cmp     BYTE [rdi + 8], 'R'
     sete    cl
     or      eax, ecx
     shl     eax, 1
-    cmp     BYTE [rdi + 9], 82
+    cmp     BYTE [rdi + 9], 'R'
     sete    cl
     or      eax, ecx
     ret
