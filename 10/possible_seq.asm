@@ -1,6 +1,6 @@
 global possible_seq
 
-section .data
+section .rodata
     TRIB:   dq 1, 1, 2, 4, 7                ; tribonacci sequence (without first 2 zeroes)
 
 section .text

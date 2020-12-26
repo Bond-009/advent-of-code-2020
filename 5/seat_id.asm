@@ -1,7 +1,5 @@
 global seat_id
 
-section .data
-
 section .text
 
 seat_id:

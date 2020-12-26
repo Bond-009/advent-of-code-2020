@@ -1,6 +1,6 @@
 global seat_id
 
-section .data
+section .rodata
     align 16
     xmm_shuf:   db 8, 7, 6, 5, 4, 3, 2, 1, 0, 9, 10, 11, 12, 13, 14, 15
     xmm_cmp:    db 1, 'RBBBBBBB', 1, 1, 1, 1, 1, 1, 1
