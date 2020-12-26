@@ -33,7 +33,10 @@ void insert_value_sorted(int *list, size_t *size, int value)
     list[low] = value;
 }
 
-uint64_t pos_seq(const int *input, size_t input_size)
+#ifdef USE_ASM
+uint64_t possible_seq(const int *input, size_t input_size);
+#else
+uint64_t possible_seq(const int *input, size_t input_size)
 {
     // Use char to optimize for size
     const static char TRIB[] = { 1, 1, 2, 4, 7 };
@@ -53,6 +56,7 @@ uint64_t pos_seq(const int *input, size_t input_size)
 
     return res;
 }
+#endif
 
 uint64_t solve(const char *filename)
 {
@@ -74,7 +78,7 @@ uint64_t solve(const char *filename)
 
     fclose(file);
 
-    return pos_seq(input, input_size);
+    return possible_seq(input, input_size);
 }
 
 int main(int argc, char *argv[])
