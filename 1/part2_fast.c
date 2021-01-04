@@ -7,7 +7,10 @@
 #define INPUT_LEN 200
 #define SEARCH 2020
 
-int inner_repair_avx(int i, const int *arr, __m256i search)
+#ifdef USE_ASM
+int repair_avx_inner(int i, const int *arr, __m256i search);
+#else
+int repair_avx_inner(int i, const int *arr, __m256i search)
 {
     __m256i start = _mm256_set1_epi32(i);
     for (int k = 0; k < INPUT_LEN; k += 8) {
@@ -27,6 +30,7 @@ int inner_repair_avx(int i, const int *arr, __m256i search)
 
     return 0;
 }
+#endif
 
 int repair_avx(const int *arr)
 {
@@ -54,7 +58,7 @@ int repair_avx(const int *arr)
 
         label0:
             if ((mask & 0x0000000f) == 0) {
-                int tmp = inner_repair_avx(_mm256_extract_epi32(new, 0), arr, search);
+                int tmp = repair_avx_inner(_mm256_extract_epi32(new, 0), arr, search);
                 if (tmp) {
                     return tmp * arr[i] * arr[j];
                 }
@@ -62,7 +66,7 @@ int repair_avx(const int *arr)
 
         label1:
             if ((mask & 0x000000f0) == 0) {
-                int tmp = inner_repair_avx(_mm256_extract_epi32(new, 1), arr, search);
+                int tmp = repair_avx_inner(_mm256_extract_epi32(new, 1), arr, search);
                 if (tmp) {
                     return tmp * arr[i] * arr[j + 1];
                 }
@@ -70,7 +74,7 @@ int repair_avx(const int *arr)
 
         label2:
             if ((mask & 0x00000f00) == 0) {
-                int tmp = inner_repair_avx(_mm256_extract_epi32(new, 2), arr, search);
+                int tmp = repair_avx_inner(_mm256_extract_epi32(new, 2), arr, search);
                 if (tmp) {
                     return tmp * arr[i] * arr[j + 2];
                 }
@@ -78,7 +82,7 @@ int repair_avx(const int *arr)
 
         label3:
             if ((mask & 0x0000f000) == 0) {
-                int tmp = inner_repair_avx(_mm256_extract_epi32(new, 3), arr, search);
+                int tmp = repair_avx_inner(_mm256_extract_epi32(new, 3), arr, search);
                 if (tmp) {
                     return tmp * arr[i] * arr[j + 3];
                 }
@@ -86,7 +90,7 @@ int repair_avx(const int *arr)
 
         label4:
             if ((mask & 0x000f0000) == 0) {
-                int tmp = inner_repair_avx(_mm256_extract_epi32(new, 4), arr, search);
+                int tmp = repair_avx_inner(_mm256_extract_epi32(new, 4), arr, search);
                 if (tmp) {
                     return tmp * arr[i] * arr[j + 4];
                 }
@@ -94,7 +98,7 @@ int repair_avx(const int *arr)
 
         label5:
             if ((mask & 0x00f00000) == 0 ){
-                int tmp = inner_repair_avx(_mm256_extract_epi32(new, 5), arr, search);
+                int tmp = repair_avx_inner(_mm256_extract_epi32(new, 5), arr, search);
                 if (tmp) {
                     return tmp * arr[i] * arr[j + 5];
                 }
@@ -102,7 +106,7 @@ int repair_avx(const int *arr)
 
         label6:
             if ((mask & 0x0f000000) == 0) {
-                int tmp = inner_repair_avx(_mm256_extract_epi32(new, 6), arr, search);
+                int tmp = repair_avx_inner(_mm256_extract_epi32(new, 6), arr, search);
                 if (tmp) {
                     return tmp * arr[i] * arr[j + 6];
                 }
@@ -110,7 +114,7 @@ int repair_avx(const int *arr)
 
         label7:
             if ((mask & 0xf0000000) == 0) {
-                int tmp = inner_repair_avx(_mm256_extract_epi32(new, 7), arr, search);
+                int tmp = repair_avx_inner(_mm256_extract_epi32(new, 7), arr, search);
                 if (tmp) {
                     return tmp * arr[i] * arr[j + 7];
                 }
@@ -120,6 +124,7 @@ int repair_avx(const int *arr)
 
     return 0;
 }
+
 
 int main(int argc, char *argv[])
 {
