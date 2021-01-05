@@ -16,14 +16,8 @@ int repair_avx_inner(int i, const int *arr, __m256i search)
     for (int k = 0; k < INPUT_LEN; k += 8) {
         __m256i new = _mm256_loadu_si256((__m256i *)(&arr[k]));
         int mask = _mm256_movemask_epi8(_mm256_cmpeq_epi32(new, cmp));
-        if (mask == 0) {
-            continue;
-        }
-
-        for (int l = 0; l < 8; l++) {
-            if (mask & (0xf << (l * 4))) {
-                return arr[k + l];
-            }
+        if (mask != 0) {
+            return _mm256_extract_epi32(cmp, 0);
         }
     }
 

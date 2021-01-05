@@ -7,22 +7,18 @@ repair_avx_inner:
     vmovd           xmm1, edi
     vpbroadcastd    ymm1, xmm1
     vpsubd          ymm1, ymm0, ymm1
-%rep    24
-    vpcmpeqd        ymm2, ymm1, [rsi]
-    vpmovmskb       edx, ymm2
-    test            edx, edx
+%assign i 0
+%rep    25
+    vpcmpeqd        ymm2, ymm1, [rsi + i]
+    vpmovmskb       eax, ymm2
+    test            eax, eax
     jne             .found
-    add             rsi, 32                 ; set up to read the next 256 bits (32 bytes) (8 * dword)
+%assign i i+32
 %endrep
-    vpcmpeqd        ymm2, ymm1, [rsi]
-    vpmovmskb       edx, ymm2
-    test            edx, edx
-    jne             .found
     xor             eax, eax                ; not found, return 0
     vzeroupper                              ; eliminate performance penalties caused by false dependencies when transitioning between AVX and legacy SSE instructions
     ret
 .found:
-    bsf             edx, edx
-    mov             eax, dword [rsi + rdx]
     vzeroupper                              ; eliminate performance penalties caused by false dependencies when transitioning between AVX and legacy SSE instructions
+    movd            eax, xmm1
     ret
