@@ -6,16 +6,15 @@ repair_avx_inner:
 ;    vpbroadcastd    ymm1, edi                 ; AVX512VL AVX512F
     vmovd           xmm1, edi
     vpbroadcastd    ymm1, xmm1
+    vpsubd          ymm1, ymm0, ymm1
 %rep    24
-    vpaddd          ymm2, ymm1, [rsi]
-    vpcmpeqd        ymm2, ymm2, ymm0
+    vpcmpeqd        ymm2, ymm1, [rsi]
     vpmovmskb       edx, ymm2
     test            edx, edx
     jne             .found
     add             rsi, 32                 ; set up to read the next 256 bits (32 bytes) (8 * dword)
 %endrep
-    vpaddd          ymm2, ymm1, [rsi]
-    vpcmpeqd        ymm2, ymm2, ymm0
+    vpcmpeqd        ymm2, ymm1, [rsi]
     vpmovmskb       edx, ymm2
     test            edx, edx
     jne             .found

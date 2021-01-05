@@ -12,11 +12,10 @@ int repair_avx_inner(int i, const int *arr, __m256i search);
 #else
 int repair_avx_inner(int i, const int *arr, __m256i search)
 {
-    __m256i start = _mm256_set1_epi32(i);
+    __m256i cmp = _mm256_sub_epi32(search, _mm256_set1_epi32(i));
     for (int k = 0; k < INPUT_LEN; k += 8) {
         __m256i new = _mm256_loadu_si256((__m256i *)(&arr[k]));
-        new = _mm256_add_epi32(start, new);
-        int mask = _mm256_movemask_epi8(_mm256_cmpeq_epi32(new, search));
+        int mask = _mm256_movemask_epi8(_mm256_cmpeq_epi32(new, cmp));
         if (mask == 0) {
             continue;
         }
@@ -124,7 +123,6 @@ int repair_avx(const int *arr)
 
     return 0;
 }
-
 
 int main(int argc, char *argv[])
 {
